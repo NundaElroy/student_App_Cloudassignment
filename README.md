@@ -3,11 +3,11 @@
 A simple Flask web app for tracking student tasks, built for a Cloud Computing PaaS assignment. Deploys on **Railway** with **PostgreSQL**.
 
 ## Features
-- ✅ View, Add, Edit, Delete tasks (full CRUD)
-- ✅ Mark tasks as completed
-- ✅ PostgreSQL on Railway / SQLite locally
-- ✅ Environment variable security
-- ✅ Logging for monitoring evidence
+- View, Add, Edit, Delete tasks (full CRUD)
+- Mark tasks as completed
+- PostgreSQL on Railway / SQLite locally
+- Environment variable security
+- Logging for monitoring evidence
 
 ## Project Structure
 ```
@@ -45,13 +45,3 @@ cp .env.example .env
 python app.py
 ```
 Open **http://localhost:5000** in your browser.
-
-## Deploy to Railway
-
-1. Push code to a **GitHub repository**
-2. Go to [railway.app](https://railway.app) → **New Project** → **Deploy from GitHub Repo**
-3. Select your repo
-4. Add **PostgreSQL**: Click **+ New** → **Database** → **PostgreSQL**
-5. Railway auto-sets `DATABASE_URL` — no manual config needed
-6. Add `SECRET_KEY` in **Variables** tab
-7. Railway auto-deploys on every `git push`
