@@ -1,17 +1,319 @@
 /* style.css - Custom styles for Student Task Tracker */
 
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap');
+
+:root {
+    --green: #1f8a4c;
+    --green-soft: #dff3e7;
+    --amber: #c9851a;
+    --amber-soft: #fff1d6;
+    --ink: #172029;
+    --slate: #4b5a63;
+    --bg: #f5f7f4;
+    --card: #ffffff;
+}
+
 body {
-    background-color: #f8f9fa;
+    font-family: 'Manrope', sans-serif;
+    background: radial-gradient(circle at top left, #f1f6f2 0%, #f7f3ea 35%, #f5f7f4 100%);
+    color: var(--ink);
+}
+
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+.app-sidebar {
+    width: 260px;
+    background: #111a14;
+    color: #eef6ee;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.brand {
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-section .section-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9fb2a2;
+    margin-bottom: 10px;
+}
+
+.sidebar-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+}
+
+.sidebar-label {
+    font-size: 0.8rem;
+    color: #b8c8ba;
+}
+
+.sidebar-value {
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.health-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #35d07f;
+    margin-right: 6px;
+}
+
+.app-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-header {
+    background: linear-gradient(120deg, #1f8a4c 0%, #2e9b5d 45%, #c9851a 120%);
+    color: #fff;
+    padding: 28px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.app-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.app-subtitle {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.stat-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: 0 12px 24px rgba(17, 32, 25, 0.08);
+    border: 1px solid #eef1ec;
+}
+
+.stat-card.stat-amber {
+    background: var(--amber-soft);
+    border-color: #f1dfb8;
+}
+
+.stat-card.stat-green {
+    background: var(--green-soft);
+    border-color: #cbe7d6;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--slate);
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-top: 6px;
+}
+
+.dashboard-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 10px 22px rgba(17, 32, 25, 0.08);
+}
+
+.filter-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #eef3ef;
+    color: var(--slate);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.pill.active,
+.pill:hover {
+    background: var(--green-soft);
+    color: var(--green);
+}
+
+.search-input {
+    min-width: 240px;
+}
+
+.dashboard-table .table {
+    background: var(--card);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(17, 32, 25, 0.06);
+}
+
+.dashboard-table thead {
+    background: #f0f4f1;
 }
 
 .table th {
     white-space: nowrap;
 }
 
-.badge {
-    font-size: 0.85em;
+.status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-chip--green {
+    background: var(--green-soft);
+    color: var(--green);
+}
+
+.status-chip--amber {
+    background: var(--amber-soft);
+    color: var(--amber);
+}
+
+.form-card {
+    background: var(--card);
+    border-radius: 18px;
+    box-shadow: 0 12px 24px rgba(17, 32, 25, 0.08);
+    border: 1px solid #eef1ec;
+}
+
+.form-card__header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #edf1ed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.form-card__body {
+    padding: 22px 24px 26px;
+}
+
+.helper-card {
+    background: #111a14;
+    color: #eef6ee;
+    border-radius: 18px;
+    padding: 20px 22px;
+    box-shadow: 0 12px 24px rgba(17, 32, 25, 0.12);
+}
+
+.helper-card__title {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #b1c4b4;
+    margin-bottom: 12px;
+}
+
+.helper-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    display: grid;
+    gap: 10px;
+}
+
+.helper-list li::before {
+    content: "•";
+    color: #35d07f;
+    margin-right: 8px;
+}
+
+.helper-meta {
+    font-size: 0.85rem;
+    color: #c6d6c8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.empty-state {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 12px 24px rgba(17, 32, 25, 0.08);
+    border: 1px solid #eef1ec;
+}
+
+.empty-illustration {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background: var(--green-soft);
+    color: var(--green);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 16px;
 }
 
 footer {
     color: #6c757d;
+}
+
+@media (max-width: 991px) {
+    .app-shell {
+        flex-direction: column;
+    }
+
+    .app-sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .sidebar-section {
+        flex: 1 1 200px;
+    }
+}
+
+@media (max-width: 575px) {
+    .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-input {
+        min-width: 160px;
+    }
+
+    .form-card__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

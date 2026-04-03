@@ -1,28 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="mb-4">Add New Task</h1>
-
-<div class="card">
-    <div class="card-body">
-        <form method="POST" action="{{ url_for('add_task') }}">
-            <div class="mb-3">
-                <label for="title" class="form-label">Task Title <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="title" name="title"
-                       placeholder="e.g. Complete Lab 3 Report" required>
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="form-card">
+            <div class="form-card__header">
+                <div>
+                    <h2 class="h4 mb-1">Add New Task</h2>
+                    <p class="text-muted mb-0">Keep your workload organized and visible.</p>
+                </div>
+                <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Back
+                </a>
             </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description"
-                          rows="3" placeholder="Optional details about the task..."></textarea>
+            <div class="form-card__body">
+                <form method="POST" action="{{ url_for('add_task') }}">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Task Title <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="title" name="title"
+                               placeholder="e.g. Complete Lab 3 Report" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description"
+                                  rows="4" placeholder="Optional details about the task..."></textarea>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-plus-circle"></i> Add Task
+                        </button>
+                        <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
             </div>
-            <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-success">
-                    <i class="bi bi-plus-circle"></i> Add Task
-                </button>
-                <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="helper-card">
+            <div class="helper-card__title">Quick Tips</div>
+            <ul class="helper-list">
+                <li>Keep titles short and specific.</li>
+                <li>Use the description for context or deadlines.</li>
+                <li>Mark tasks completed when done.</li>
+            </ul>
+            <div class="helper-meta">
+                <i class="bi bi-calendar-event"></i> Today: {{ today }}
             </div>
-        </form>
+        </div>
     </div>
 </div>
 {% endblock %}

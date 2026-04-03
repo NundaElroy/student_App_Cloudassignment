@@ -1,41 +1,85 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>My Tasks</h1>
-    <a href="{{ url_for('add_task') }}" class="btn btn-success">
-        <i class="bi bi-plus-circle"></i> Add New Task
-    </a>
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-label">Total Tasks</div>
+            <div class="stat-value">{{ total_count }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card stat-amber">
+            <div class="stat-label">Pending</div>
+            <div class="stat-value">{{ pending_count }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card stat-green">
+            <div class="stat-label">Completed</div>
+            <div class="stat-value">{{ completed_count }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="card dashboard-card mb-4">
+    <div class="card-body">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+                <h2 class="h5 mb-1">Recent Tasks</h2>
+                <p class="text-muted mb-0">Search, manage, and keep track of your work.</p>
+            </div>
+            <form class="d-flex gap-2" method="GET" action="{{ url_for('index') }}">
+                <input type="hidden" name="status" value="{{ status_filter }}">
+                <input type="text" class="form-control search-input" name="q" value="{{ query }}"
+                       placeholder="Search title or description">
+                <button class="btn btn-outline-success" type="submit">
+                    <i class="bi bi-search"></i> Search
+                </button>
+                {% if query %}
+                    <a class="btn btn-outline-secondary" href="{{ url_for('index') }}">Clear</a>
+                {% endif %}
+            </form>
+        </div>
+        <div class="filter-pills mt-3">
+            <a class="pill {{ 'active' if status_filter == 'all' else '' }}"
+               href="{{ url_for('index', q=query, status='all') }}">All</a>
+            <a class="pill {{ 'active' if status_filter == 'pending' else '' }}"
+               href="{{ url_for('index', q=query, status='pending') }}">Pending</a>
+            <a class="pill {{ 'active' if status_filter == 'completed' else '' }}"
+               href="{{ url_for('index', q=query, status='completed') }}">Completed</a>
+        </div>
+    </div>
 </div>
 
 {% if tasks %}
-    <div class="table-responsive">
-        <table class="table table-hover table-bordered">
-            <thead class="table-primary">
+    <div class="table-responsive dashboard-table">
+        <table class="table table-hover align-middle">
+            <thead>
                 <tr>
                     <th>#</th>
                     <th>Title</th>
                     <th>Description</th>
                     <th>Status</th>
                     <th>Created</th>
-                    <th>Actions</th>
+                    <th class="text-end">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for task in tasks %}
-                <tr class="{{ 'table-success' if task.status == 'Completed' else '' }}">
-                    <td>{{ task.id }}</td>
-                    <td>{{ task.title }}</td>
-                    <td>{{ task.description or '—' }}</td>
+                <tr>
+                    <td class="text-muted">{{ task.id }}</td>
+                    <td class="fw-semibold">{{ task.title }}</td>
+                    <td class="text-muted">{{ task.description or '—' }}</td>
                     <td>
                         {% if task.status == 'Completed' %}
-                            <span class="badge bg-success">Completed</span>
+                            <span class="status-chip status-chip--green">Completed</span>
                         {% else %}
-                            <span class="badge bg-warning text-dark">Pending</span>
+                            <span class="status-chip status-chip--amber">Pending</span>
                         {% endif %}
                     </td>
-                    <td>{{ task.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-                    <td>
+                    <td class="text-muted">{{ task.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td class="text-end">
                         {% if task.status != 'Completed' %}
                             <a href="{{ url_for('complete_task', task_id=task.id) }}"
                                class="btn btn-sm btn-outline-success" title="Mark Complete">
@@ -58,8 +102,15 @@
         </table>
     </div>
 {% else %}
-    <div class="alert alert-info text-center">
-        <i class="bi bi-info-circle"></i> No tasks yet. Click <strong>Add New Task</strong> to get started!
+    <div class="empty-state text-center">
+        <div class="empty-illustration">
+            <i class="bi bi-clipboard-check"></i>
+        </div>
+        <h3>No tasks found</h3>
+        <p class="text-muted">Add a new task or clear your filters to see results.</p>
+        <a class="btn btn-success" href="{{ url_for('add_task') }}">
+            <i class="bi bi-plus-circle"></i> Add Task
+        </a>
     </div>
 {% endif %}
 {% endblock %}

@@ -11,7 +11,9 @@ Database Strategy:
 
 import os
 import logging
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash
+from sqlalchemy import or_
 from models import db, Task
 
 # ---------------------------------------------------------------------------
@@ -63,9 +65,38 @@ with app.app_context():
 @app.route('/')
 def index():
     """READ - Display all tasks on the homepage."""
-    tasks = Task.query.order_by(Task.created_at.desc()).all()
+    query = request.args.get('q', '').strip()
+    status_filter = request.args.get('status', 'all').strip().lower()
+
+    base_query = Task.query
+    if status_filter in ('pending', 'completed'):
+        base_query = base_query.filter(Task.status == status_filter.capitalize())
+
+    if query:
+        base_query = base_query.filter(
+            or_(
+                Task.title.ilike(f"%{query}%"),
+                Task.description.ilike(f"%{query}%")
+            )
+        )
+
+    tasks = base_query.order_by(Task.created_at.desc()).all()
+    total_count = Task.query.count()
+    completed_count = Task.query.filter_by(status='Completed').count()
+    pending_count = Task.query.filter_by(status='Pending').count()
+
     logger.info(f"Homepage loaded. Total tasks: {len(tasks)}")
-    return render_template('index.html', tasks=tasks)
+    today = datetime.now().strftime('%b %d, %Y')
+    return render_template(
+        'index.html',
+        tasks=tasks,
+        query=query,
+        status_filter=status_filter,
+        total_count=total_count,
+        completed_count=completed_count,
+        pending_count=pending_count,
+        today=today
+    )
 
 
 @app.route('/add', methods=['GET', 'POST'])
@@ -88,7 +119,8 @@ def add_task():
         flash('Task added successfully!', 'success')
         return redirect(url_for('index'))
 
-    return render_template('add_task.html')
+    today = datetime.now().strftime('%b %d, %Y')
+    return render_template('add_task.html', today=today)
 
 
 @app.route('/edit/<int:task_id>', methods=['GET', 'POST'])
@@ -111,7 +143,8 @@ def edit_task(task_id):
         flash('Task updated successfully!', 'success')
         return redirect(url_for('index'))
 
-    return render_template('edit_task.html', task=task)
+    today = datetime.now().strftime('%b %d, %Y')
+    return render_template('edit_task.html', task=task, today=today)
 
 
 @app.route('/complete/<int:task_id>')
