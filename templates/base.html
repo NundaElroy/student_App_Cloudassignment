@@ -12,36 +12,70 @@
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
-                <i class="bi bi-check2-square"></i> Student Task Tracker
-            </a>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="container mt-4">
-        <!-- Flash Messages -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <div class="app-shell">
+        <!-- Sidebar -->
+        <aside class="app-sidebar">
+            <div class="brand">
+                <i class="bi bi-check2-square"></i>
+                <span>Student Task Tracker</span>
+            </div>
+            <div class="sidebar-section">
+                <div class="section-title">Overview</div>
+                <div class="sidebar-card">
+                    <div class="sidebar-label">Status</div>
+                    <div class="sidebar-value">
+                        <span class="health-dot"></span> All systems normal
                     </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+                </div>
+                <div class="sidebar-card">
+                    <div class="sidebar-label">Today</div>
+                    <div class="sidebar-value">{{ today }}</div>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <div class="section-title">Quick Actions</div>
+                <a class="btn btn-success w-100" href="{{ url_for('add_task') }}">
+                    <i class="bi bi-plus-circle"></i> New Task
+                </a>
+            </div>
+        </aside>
 
-        {% block content %}{% endblock %}
+        <!-- Main Content -->
+        <main class="app-content">
+            <header class="app-header">
+                <div>
+                    <h1 class="app-title">Task Dashboard</h1>
+                    <p class="app-subtitle">Track progress and keep priorities visible.</p>
+                </div>
+                <div class="header-actions">
+                    <a href="{{ url_for('index') }}" class="btn btn-outline-light">
+                        <i class="bi bi-arrow-clockwise"></i> Refresh
+                    </a>
+                </div>
+            </header>
+
+            <div class="container-fluid py-4">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </div>
+
+            <!-- Footer -->
+            <footer class="text-center text-muted mt-4 mb-3">
+                <small>Student Task Tracker &mdash; Cloud Computing PaaS Assignment</small>
+            </footer>
+        </main>
     </div>
-
-    <!-- Footer -->
-    <footer class="text-center text-muted mt-5 mb-3">
-        <small>Student Task Tracker &mdash; Cloud Computing PaaS Assignment</small>
-    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
